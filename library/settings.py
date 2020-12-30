@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from manifest_loader.loaders import CreateReactAppLoader  # CRA manifest loader for django
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'manifest_loader',
+    'dj_frontend'
 ]
 
 MIDDLEWARE = [
@@ -118,3 +122,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'build',  # the directory CRA outputs to
+    BASE_DIR / 'build' / 'static'  # helps find additional output files
+]
+
+MANIFEST_LOADER = {
+    'manifest_file': 'asset-manifest.json',  # name of the manifest file
+    'loader': CreateReactAppLoader  # instructions on how to process the CRA manifest file
+}
